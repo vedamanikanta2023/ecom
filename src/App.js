@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import { RequireAuth } from './Components/Authentication/RequireAuth';
 import {  useAuth } from './Components/Authentication/Auth';
-import {Button, Typography} from "@mui/material"
+import {Button} from "@mui/material"
 import Todos from './Components/Todos/todos';
 
 function App() {

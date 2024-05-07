@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button,MenuItem, IconButton, ListItemText,TextField,Grid,List,ListItem,Typography } from "@mui/material"
+import { Box, Button,MenuItem, IconButton, ListItemText,TextField,Grid,ListItem,Typography } from "@mui/material"
 import { useAuth } from "../Authentication/Auth";
 import Select from '@mui/material/Select';
 import Temp from "./temparature";
@@ -39,6 +39,9 @@ const Todos = (props)=>{
                 case 'low':
                   lows.push(element);
                   break;
+                default:
+                    highs.push(element);
+                    
               }
         });
         return [...highs,...midiums,...lows];
