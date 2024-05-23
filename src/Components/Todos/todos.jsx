@@ -21,7 +21,7 @@ const Todos = (props)=>{
 
     const logout=()=>{
       auth.logout();
-      alert("You have logged out")
+      alert("You have logged out");
     };
 
     const prioritize=(arr)=>{
@@ -71,7 +71,7 @@ const Todos = (props)=>{
     }
 
     return(
-        <Box> 
+        <Box>
             <Box display={"flex"} justifyContent="end" padding="10">
                 <Button onClick={logout} >Logout</Button>
             </Box>
@@ -80,7 +80,7 @@ const Todos = (props)=>{
                 <Grid container  spacing={2}
                  >
                     <Grid item xm={3} md={3}>
-                        <Select
+                        <Select width="100%"
                             labelId="Prioritize"
                             id="demo-simple-select"
                             value={priority}

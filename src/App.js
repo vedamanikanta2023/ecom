@@ -3,7 +3,8 @@ import './App.css';
 import { RequireAuth } from './Components/Authentication/RequireAuth';
 import {  useAuth } from './Components/Authentication/Auth';
 import {Button} from "@mui/material"
-import Todos from './Components/Todos/todos';
+// import Todos from './Components/Todos/todos';
+import WeatherDashboard from './Components/WeatherDashBoard/dashBoard';
 
 function App() {
   const auth = useAuth();
@@ -13,7 +14,7 @@ function App() {
     auth.login(true);
     navigate("/");
   }
-console.log("auth===>",auth);
+// console.log("auth===>",auth);
   return (
     <div className="App">
       {/* <AuthProvider> */}
@@ -25,13 +26,17 @@ console.log("auth===>",auth);
             <Button onClick={login}>
               Log In
               </Button>
-        </div>
-      }/>
-          <Route exact path="/" element={
+            </div>
+          }/>
+          {/* <Route exact path="/" element={
           <RequireAuth>
             <div>
               <Todos />
             </div>
+          </RequireAuth>} /> */}
+          <Route exact path="/" element={
+          <RequireAuth>
+              <WeatherDashboard />
           </RequireAuth>} />
         </Routes>
       {/* </AuthProvider> */}
