@@ -1,15 +1,60 @@
 import * as React from 'react';
 import Temp from '../Todos/temparature';
-import { Grid} from '@mui/material';
 import { useAuth } from '../Authentication/Auth';
 import './dashBoard.css';
 
 const WeatherDashboard = (props)=>{
     const [userType,setUserType] = React.useState("farmer");
     const [locationName,setLocationName] = React.useState('');
-    const [searchLocation,setSearchLocation] = React.useState('');
+    const [weather,setWeather]=React.useState(undefined);
+    const [errorM,setError]= React.useState(undefined);
+    console.log('error ------>',errorM);
+    const [fetch1,setFetch] = React.useState(true);
 
     const auth = useAuth()
+    // console.log('weather - - ->',weather)
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${locationName?locationName:"Hyderabad"}&appid=f00c38e0279b7bc85480c3fe775d518c`;
+
+    const hideErrorMsg = setTimeout(() => {
+        setError(undefined);
+    }, 2000*3);
+
+    const fetchTemp = ()=>{
+        try{
+          fetch(apiUrl)
+        .then(response=>response.json())
+        .then(data=>{
+        // console.log('data',data);
+        if (data.cod===200){
+            const weatherDescription = data.weather[0].description;
+            const temperature = data.main.temp;
+            const name = data.name;
+            const responseObj = {...data.main,}
+            setWeather({weatherDescription,temperature,name,...responseObj});
+        }else{
+            setError(data);
+            hideErrorMsg()
+        }
+        })
+        .catch(e=>{
+            // console.log(e);setErrorMessage(e);
+        })  
+        }
+        catch(err) {
+            setError(err.message);
+            hideErrorMsg()
+        }
+        
+        if(fetch1){
+            setFetch(false);
+        }
+    }
+
+    React.useEffect(()=>{
+        if (fetch1){
+            fetchTemp();
+        }
+    },[fetch1])
 
     const logout = ()=>{
         auth.logout();
@@ -17,6 +62,11 @@ const WeatherDashboard = (props)=>{
     }
 
     return<div className='dashboard p-10'>
+        {
+            errorM && <h1 className='error-message'>
+                {errorM&&errorM.message?errorM.message:''}
+            </h1>
+            }
         <button className='logout-button py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={logout}>Logout</button>
             <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
                 <select width="100%"
@@ -43,11 +93,13 @@ const WeatherDashboard = (props)=>{
                 <button
                     variant='outlined'
                     className='py-2 col-span-2 md:col-span-1 px-5 bg-violet-500 text-white font-semibold rounded-lg shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75'
-                    onClick={()=>{setSearchLocation(locationName);setLocationName('');}}>
+                    onClick={()=>{
+                        fetchTemp();
+                        setLocationName('');}}>
                         Get Weather Report
                         </button>
         </div>
-        <Temp location={searchLocation} user={userType} />
+        <Temp weather={weather} user={userType} />
     </div>
 }
 

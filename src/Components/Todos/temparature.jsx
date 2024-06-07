@@ -19,39 +19,13 @@ const locatoinIcon = <svg xmlns="http://www.w3.org/2000/svg" width="16" height="
 </svg>;
 
 const Temp =(props)=>{
-    const [weather,setWeather]=useState(undefined);
-    // console.log('weather - - ->',weather)
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.location?props.location:"Hyderabad"}&appid=f00c38e0279b7bc85480c3fe775d518c`;
-
-    const fetchTemp = ()=>{
-        fetch(apiUrl)
-        .then(response=>response.json())
-        .then(data=>{
-        // console.log('data',data);
-        if (data.cod===200){
-            const weatherDescription = data.weather[0].description;
-            const temperature = data.main.temp;
-            const name = data.name;
-            const responseObj = {...data.main,}
-            setWeather({weatherDescription,temperature,name,...responseObj});
-        }else{
-            // setErrorMessage(data.message)
-        }
-        })
-        .catch(e=>{
-            // console.log(e);setErrorMessage(e);
-        })
-    }
-
-    useEffect(()=>{
-        fetchTemp();
-    },[props.location])
+const {weather} = props;
 
     return<Box display="flex" flexDirection={'column'} justifyContent="space-between" padding={5}>
         <div>
             <Grid container style={{alignItems:"center",marginBottom:10}}>
                 <Grid item xs={9} md={6}>
-                    <Typography textAlign={"start"}>
+                    <Typography className="flex items-center" textAlign={"start"}>
                         <span>{weatherIcon}</span>&nbsp;
                         {weather&&weather.temperature?`${Math.ceil(weather.temperature/10)}°C`:"NO Data"}
                     </Typography>
