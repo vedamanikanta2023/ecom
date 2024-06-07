@@ -8,10 +8,9 @@ const WeatherDashboard = (props)=>{
     const [locationName,setLocationName] = React.useState('');
     const [weather,setWeather]=React.useState(undefined);
     const [errorM,setError]= React.useState(undefined);
-    console.log('error ------>',errorM);
     const [fetch1,setFetch] = React.useState(true);
 
-    const auth = useAuth()
+    const auth = useAuth();
     // console.log('weather - - ->',weather)
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${locationName?locationName:"Hyderabad"}&appid=f00c38e0279b7bc85480c3fe775d518c`;
 
