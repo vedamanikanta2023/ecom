@@ -54,7 +54,7 @@ const WeatherDashboard = (props)=>{
         if (fetch1){
             fetchTemp();
         }
-    },[fetch1])
+    })
 
     const logout = ()=>{
         auth.logout();
