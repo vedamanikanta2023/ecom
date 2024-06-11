@@ -4,7 +4,7 @@ Hi I'm Vedamanikanta Vanga, React JS devloper with 2 years in-hand experience.
 
 You can find the functionality of the Todos Application  below. 
 
-I have created the This applicatio using the create-react-app command.
+I have created the This application using the create-react-app command.
 
 I have added routing and redux for state management.
 I have added simle authentication using redux.
