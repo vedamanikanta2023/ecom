@@ -66,7 +66,11 @@ const WeatherDashboard = (props)=>{
                 {errorM&&errorM.message?errorM.message:''}
             </h1>
             }
-        <button className='logout-button py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={logout}>Logout</button>
+            <div className='logout-button'>
+                <button className='py-2 mr-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={props.goback}>Goback</button>
+                <button className='py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={logout}>Logout</button>
+            </div>
+        
             <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
                 <select width="100%"
                     labelId="Prioritize"

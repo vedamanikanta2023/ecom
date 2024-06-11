@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+Hi I'm Vedamanikanta Vanga, React JS devloper with 2 years in-hand experience. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+******************************************************************************
 
-## Available Scripts
+You can find the functionality of the Todos Application  below. 
 
-In the project directory, you can run:
+I have created the This applicatio using the create-react-app command.
 
-### `npm start`
+I have added routing and redux for state management.
+I have added simle authentication using redux.
+If user is not logged in he can't see any other routes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Initially user will be landed in the login page. There I've implemented simple login logic.
+By clicking the login Button... You will be routed to the common page.
+There are two buttons 1.Goto Dashboard 2. Goto Todo.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+If you clicked on 2nd button you'll be redirected to the Todos appliction.
+There You can see all the functionalities you have mentioned in the assignments.
 
-### `npm test`
+Todo add a Todo, user have to select the priority (Initially the priority will be high).
+Then user have to give todo name in the input field.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Then the user have to click on the Add Todo button.
 
-### `npm run build`
+After clicking the Add Todo button the todo will be added to the list you can see on the screen.
+With todo there will be to icons 1.Edit 2Delete
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+if you clicked on the edit you can edit the perticular todo. If you clicked on the cancel button in the popup
+then the todo will be added back to the list. If you edit and clicked to save the todo. It will be added to the
+list by it's priority wise.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+In the above scenarios adding, deleting editing whenver user does the editing the todos list
+the todos will be added to the localStorage.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I have also implemented the to go back to the common page where we can go to dashboard(instead we can navbar later).
 
-### `npm run eject`
+User can logout from any route. Whenever the user clicks on the logout button, the login value in the store will be changed then by the RequireAuth authentication user will be redirected to the login page.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Icons were separately stored in another fild named icon.js
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+For routing I've used react-router package
+Redux as statemangement. 
+Material UI and Tailwind Css were used to implement styling.
+And Bootstrap Icons were used.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Redux was just involved for routing and authentication. The todos will not be stored in the Redux store.

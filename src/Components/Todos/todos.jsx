@@ -1,13 +1,8 @@
 import * as React from "react";
-import { Box, Button,MenuItem, IconButton, ListItemText,TextField,Grid,ListItem,Typography } from "@mui/material"
+import { Box, IconButton, ListItemText,Grid,ListItem,Typography } from "@mui/material"
 import { useAuth } from "../Authentication/Auth";
-import Select from '@mui/material/Select';
-import Temp from "./temparature";
-
-const deleteIcon= <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-</svg>
+import { deleteIcon, editIcon } from "../icons";
+// import Temp from "./temparature";
 
 const Todos = (props)=>{
     let stringifiedTodoList = localStorage.getItem("todoList");
@@ -16,6 +11,8 @@ const Todos = (props)=>{
     const [todos,setTodos]=React.useState(parsedTodoList===null?[]:parsedTodoList);
     const [cTodo,setTodo] = React.useState("");
     const [priority,setPriority] = React.useState('high');
+    const [isPopupShow,setPopuupShow]=React.useState(false);
+    const [editableRec,setEditableRec]=React.useState(undefined);
 
     const auth = useAuth();
 
@@ -24,7 +21,7 @@ const Todos = (props)=>{
       alert("You have logged out");
     };
 
-    const prioritize=(arr)=>{
+    const prioritizeTodos=(arr)=>{
         const highs=[];
         const midiums=[];
         const lows=[];
@@ -47,19 +44,23 @@ const Todos = (props)=>{
         return [...highs,...midiums,...lows];
     }
 
-    const addTodo=()=>{
-        if (cTodo === "") {
+    const addTodo=(isEdit=false)=>{
+        if (isEdit===false&&cTodo === "") {
             alert("Enter Valid Text");
             return;
         }
 
-        let newTodo={do:cTodo,priority};
+        let newTodo=isEdit?editableRec:{do:cTodo,priority};
         let todos1=[...todos,newTodo];
-        const prioritizedTodos = prioritize(todos1);
+        const prioritizedTodos = prioritizeTodos(todos1);
 
         setTodos(prioritizedTodos);
         setTodo("");
         setPriority('high')
+
+        if (isEdit){
+            setEditableRec(undefined);
+        }
 
         localStorage.setItem("todoList", JSON.stringify(prioritizedTodos));
     }
@@ -70,36 +71,99 @@ const Todos = (props)=>{
         localStorage.setItem("todoList", JSON.stringify(remainingTodos));
     }
 
+    const editTodo = (rec,index)=>{
+        setEditableRec(rec);
+        setPopuupShow(true);
+        deleteTodo(index);
+        setTodo(rec.do);
+        setPriority(rec.priority);
+    }
+ 
+    const popup = ()=>(
+        <div className="popup">
+            <div className='flex flex-col max-w-sm border p-4 rounded-lg bg-green-100 popup-innter-container'>
+                <h1 className="mb-2 text-lg font-medium text-gray-900 dark:text-white">Edit Todo</h1>
+                <select width="100%"
+                    labelId="Prioritize"
+                    id="demo-simple-select"
+                    value={priority}
+                    size='medium'
+                    className='bg-transparent mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    
+                    onChange={(e)=>setPriority(e.target.value)}
+                >
+                    <option value={"hight"}>High</option>
+                    <option value={"midium"}>Midium</option>
+                    <option value={"low"}>Low</option>
+                </select>
+                <input
+                    width={'100%'}
+                    className='bg-transparent mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    placeholder="Enter Todo here" id="outlined-basic" variant="outlined" onChange={(e)=>setTodo(e.target.value)} value={cTodo}
+                    />
+
+                    <div className="p-1">
+                    <button
+                    variant='outlined'
+                    className='py-2 mr-2 col-span-2 md:col-span-1 px-5 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75'
+                    onClick={()=>{
+                        setPopuupShow(false);
+                        addTodo(true);
+                    }}>
+                        Cancel
+                        </button>
+                        <button
+                    variant='outlined'
+                    className='py-2 col-span-2 md:col-span-1 px-5 bg-violet-500 text-white font-semibold rounded-lg shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75'
+                    onClick={()=>{setPopuupShow(false);
+                    addTodo()
+                    }}>
+                        Add Todo
+                        </button>
+                </div>
+                    </div>
+
+                
+        </div>
+        )
+
     return(
-        <Box>
-            <Box display={"flex"} justifyContent="end" padding="10">
-                <Button onClick={logout} >Logout</Button>
-            </Box>
-            <Temp />
+        <div>
+        <div className='logout-button'>
+            <button className='py-2 mr-3 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={props.goback}>Goback</button>
+            <button className='py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={logout}>Logout</button>
+        </div>
+            {/* <Temp /> */}
             <Box>
-                <Grid container  spacing={2}
-                 >
-                    <Grid item xm={3} md={3}>
-                        <Select width="100%"
-                            labelId="Prioritize"
-                            id="demo-simple-select"
-                            value={priority}
-                            onChange={(e)=>setPriority(e.target.value)}
-                        >
-                            <MenuItem value={"high"}>High</MenuItem>
-                            <MenuItem value={"midium"}>Midium</MenuItem>
-                            <MenuItem value={"low"}>Low</MenuItem>
-                        </Select>
-                    </Grid>
-                    <Grid item xm={9} md={6}>
-                        <TextField placeholder="Enter Todo here" id="outlined-basic"variant="outlined" onChange={(e)=>setTodo(e.target.value)} value={cTodo} />
-                    </Grid>
-                    <Grid item xm={12} md={3}
-                    //  width={'100vw'}
-                      style={{background:"#ffebee",marginTop:10}}>
-                        <Button onClick={addTodo}>Add Todo</Button>
-                    </Grid>
-                </Grid>
+        {
+            !!!isPopupShow &&
+            <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
+            <select width="100%"
+                labelId="Prioritize"
+                id="demo-simple-select"
+                value={priority}
+                size='medium'
+                className='bg-transparent border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                
+                onChange={(e)=>setPriority(e.target.value)}
+            >
+                <option value={"hight"}>High</option>
+                <option value={"midium"}>Midium</option>
+                <option value={"low"}>Low</option>
+            </select>
+            <input
+                width={'100%'}
+                className='bg-transparent border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                placeholder="Enter Todo here" id="outlined-basic" variant="outlined" onChange={(e)=>setTodo(e.target.value)} value={cTodo}
+                />
+        
+            <button
+                variant='outlined'
+                className='py-2 col-span-2 md:col-span-1 px-5 bg-violet-500 text-white font-semibold rounded-lg shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75'
+                onClick={()=>{addTodo()}}>
+                    Add Todo
+                    </button>
+            </div>}
             <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                 Todos List
@@ -107,21 +171,27 @@ const Todos = (props)=>{
                 <Grid container spacing={1}>
                 {
                     todos.map((todo,ind)=><Grid key={ind} item xs={12} md={6} paddingRight="8px" style={{background:'#ffcdd2',borderLeft:'1px solid black',marginTop:2}}><ListItem
+                    
                     secondaryAction={
-                    <IconButton style={{background:'#e1bee7e'}}  onClick={()=>deleteTodo(ind)} edge="end" aria-label="delete">
+                        <>
+                    <IconButton title="Edit Todo" style={{background:'#e1bee7e',marginRight:5}} onClick={()=>editTodo(todo,ind)} edge="end" aria-label="delete">
+                        {editIcon}
+                    </IconButton>
+                    <IconButton title="Delete Todo" style={{background:'#e1bee7e'}}  onClick={()=>deleteTodo(ind)} edge="end" aria-label="delete">
                         {deleteIcon}
                     </IconButton>
+                        </>
                     }>
                     <ListItemText
                         primary={todo.do}
-                        // secondary={secondary ? 'Secondary text' : null}
                     />
                     </ListItem></Grid>)
                 }
                 </Grid>
             </Grid>
             </Box>
-        </Box>
+            {isPopupShow && popup()}
+        </div>
     )
 }
 

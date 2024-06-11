@@ -3,8 +3,9 @@ import './App.css';
 import { RequireAuth } from './Components/Authentication/RequireAuth';
 import {  useAuth } from './Components/Authentication/Auth';
 import {Button} from "@mui/material"
-// import Todos from './Components/Todos/todos';
+import Todos from './Components/Todos/todos';
 import WeatherDashboard from './Components/WeatherDashBoard/dashBoard';
+import CommonPage from './Components/commonPage';
 
 function App() {
   const auth = useAuth();
@@ -14,10 +15,9 @@ function App() {
     auth.login(true);
     navigate("/");
   }
-// console.log("auth===>",auth);
+
   return (
     <div className="App">
-      {/* <AuthProvider> */}
         <Routes>
           <Route exact path="login" 
           element={
@@ -28,18 +28,19 @@ function App() {
               </Button>
             </div>
           }/>
-          {/* <Route exact path="/" element={
-          <RequireAuth>
-            <div>
-              <Todos />
-            </div>
-          </RequireAuth>} /> */}
           <Route exact path="/" element={
           <RequireAuth>
-              <WeatherDashboard />
+              <CommonPage />
+          </RequireAuth>} />
+          <Route exact path="/dashboard" element={
+          <RequireAuth>
+              <WeatherDashboard goback={login} />
+          </RequireAuth>} />
+          <Route exact path="/todo" element={
+          <RequireAuth>
+              <Todos goback={login} />
           </RequireAuth>} />
         </Routes>
-      {/* </AuthProvider> */}
     </div>
   );
 }

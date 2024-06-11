@@ -1,3 +1,21 @@
+.popup {
+    width: 100%;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    z-index: 999;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-innter-container {
+    max-width:300px;
+    min-width: 220px;
+}
+
 .dashboard {
     background-image:url("https://img.freepik.com/free-photo/beautiful-road-going-through-farm-cornfield-with-tree-end-colorful-sky_181624-23214.jpg?w=740&t=st=1716281294~exp=1716281894~hmac=57416c0a314ba54a699b24f9ae7b44fad970ad1109e82842a7f032283cfc7e93");
     background-size: cover;
