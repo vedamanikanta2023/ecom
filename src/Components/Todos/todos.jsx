@@ -128,7 +128,7 @@ const Todos = (props)=>{
         )
 
     return(
-        <div>
+        <div className="p-4">
         <div className='logout-button'>
             <button className='py-2 mr-3 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={props.goback}>Goback</button>
             <button className='py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75' onClick={logout}>Logout</button>
